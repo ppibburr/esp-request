@@ -680,6 +680,7 @@ int req_perform(request_t *req)
         REQ_CHECK(req_process_download(req) < 0, "Error download", break);
         if(req->valid_websocket) {
             xTaskCreate(req_websocket_task, "req_websocket_task", 2*1024, req, 5, NULL);
+            return 0;
         }
         if((req->response->status_code == 301 || req->response->status_code == 302) && req_list_check_key(req->opt, "follow", "true")) {
             req_list_t *found = req_list_get_key(req->response->header, "Location");
